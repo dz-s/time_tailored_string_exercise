@@ -6,8 +6,14 @@ string_example="all I did today; i 20m, 35m, 2.5h, 2h40m v 40m 35m 1.2h e 30, 60
 class MinutesTest(unittest.TestCase):
     def test_calculate_total_minutes_in(self):
         self.assertEqual(calculate_total_minutes_in(), 602)
-        self.assertEqual(calculate_total_minutes_in("all I did today; i 20m, 35m, 2.5h, 3h40m v 40m 35m 1.2h e 30, 60m  "), 662)
+        # check seprators (a comma, a space, a comma followed by spaces) to be handled properly:
+        self.assertEqual(calculate_total_minutes_in("all I did today; ,,,, i 20m ,  ,  35m,2.5h,2h  ,     40m v 40m,35m,    1.2h e    30,, 60m , "), 602)
+        # input string that does not contain ';' character:
         self.assertEqual(calculate_total_minutes_in("all I did today"), 0)
+        # input string is empty:
+        self.assertEqual(calculate_total_minutes_in(""), 0)
+        # input string contains a lot of not meaningful charscters:
+        self.assertEqual(calculate_total_minutes_in("all I did today;r i y 20m, g 35m, 2.5h, 2hu40m v 40m 35m r1.2h e 30, 60m i pp"), 602)
 
 def calculate_total_minutes_in(time_tailored_string=string_example):
     total_minutes = 0
