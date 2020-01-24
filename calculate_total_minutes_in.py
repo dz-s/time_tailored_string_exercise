@@ -1,4 +1,6 @@
 import re
+from math import ceil
+from decimal import Decimal
 import unittest
 
 string_example="all I did today; i 20m, 35m, 2.5h, 2h40m v 40m 35m 1.2h e 30, 60m  "
@@ -14,6 +16,9 @@ class MinutesTest(unittest.TestCase):
         self.assertEqual(calculate_total_minutes_in(""), 0)
         # input string contains a lot of not meaningful charscters:
         self.assertEqual(calculate_total_minutes_in("all I did today;r i y 20m, g 35m, 2.5h, 2hu40m v 40m 35m r1.2h e 30, 60m i pp"), 602)
+        # input string contains floats:
+        self.assertEqual(calculate_total_minutes_in("all I did today; 2.5854589999999999h"), 156)
+        self.assertEqual(calculate_total_minutes_in("all I did today; 1.00000000000000000000001"), 2)
 
 def calculate_total_minutes_in(time_tailored_string=string_example):
     total_minutes = 0
@@ -30,16 +35,16 @@ def calculate_total_minutes_in(time_tailored_string=string_example):
                     hours = matched_hours.group(0)
                 else:
                     hours = 0
-                matched_minutes = re.search(r'[\d]+($|(?=[m]))', token)
+                matched_minutes = re.search(r'[\d.]+($|(?=[m]))', token)
                 if matched_minutes is not None:
                     minutes = matched_minutes.group(0)
                 else:
                     minutes = 0
             else:
-                minutes = re.search(r'\d+', token).group(0)
+                minutes = re.search(r'[0-9]*\.?[0-9]*', token).group(0)
                 hours = 0
-            total_minutes += int(float(hours)*60 + int(minutes))
-        return total_minutes
+            total_minutes += Decimal(hours)*60 + Decimal(minutes)
+        return ceil(total_minutes)
 
 
 if __name__ == "__main__":
