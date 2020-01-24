@@ -23,6 +23,14 @@ class MinutesTest(unittest.TestCase):
         self.assertEqual(calculate_total_minutes_in("all I did today; 2.55465456456456h60.6546456456564m 0.0000000001 "), 214)
         # input string does not contain any time enties, just not meaningful charscters including "h" and "m":
         self.assertEqual(calculate_total_minutes_in("all I did today; f d t h g e t y m  l"), 0)
+        # just some random test cases:
+        self.assertEqual(calculate_total_minutes_in("all I did today"), 0)
+        self.assertEqual(calculate_total_minutes_in("all I did today;1 1 1 1 1 1 1"), 7)
+        self.assertEqual(calculate_total_minutes_in("all I did today;1m 1m 1m 1m 1m 1m 1h 1m"), 67)
+        self.assertEqual(calculate_total_minutes_in("all I did today;1m 1m 1m 1m 1m 1m 1m1h 10m0h"), 77)
+        self.assertEqual(calculate_total_minutes_in("all I did today;1m 1m 1m 1m 1m 1m 1m1h 10m000000000000000001h"), 137)
+        self.assertEqual(calculate_total_minutes_in("all I did today; i 20m, 35m, 2.5h, 3h40m v"), 425)
+
 
 def calculate_total_minutes_in(time_tailored_string=string_example):
     total_minutes = 0
