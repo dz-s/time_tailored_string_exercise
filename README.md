@@ -1,2 +1,3 @@
 # time_tailored_string_exercise
-This repo contains a solution of a time_tailored_string_exercise written in Python
+Execute the following command in order to run unit tests using command line:
+`python calculate_total_minutes_in.py` 
