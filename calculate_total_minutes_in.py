@@ -31,4 +31,5 @@ def calculate_total_minutes_in(time_tailored_string=string_example):
     return total_minutes
 
 
-unittest.main()
+if __name__ == "__main__":
+    unittest.main()
