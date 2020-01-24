@@ -19,6 +19,10 @@ class MinutesTest(unittest.TestCase):
         # input string contains floats:
         self.assertEqual(calculate_total_minutes_in("all I did today; 2.5854589999999999h"), 156)
         self.assertEqual(calculate_total_minutes_in("all I did today; 1.00000000000000000000001"), 2)
+        self.assertEqual(calculate_total_minutes_in("all I did today; 2.55465456456456h 60.6546456456564m  "), 214)
+        self.assertEqual(calculate_total_minutes_in("all I did today; 2.55465456456456h60.6546456456564m 0.0000000001 "), 214)
+        # input string does not contain any time enties, just not meaningful charscters including "h" and "m":
+        self.assertEqual(calculate_total_minutes_in("all I did today; f d t h g e t y m  l"), 0)
 
 def calculate_total_minutes_in(time_tailored_string=string_example):
     total_minutes = 0
